@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxy.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.zxy.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="mobile" jdbcType="CHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="creatTime" jdbcType="CHAR" property="creatTime" />
+    <result column="state" jdbcType="CHAR" property="state" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, username, mobile, email, creatTime, state, token
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUsernameAndPwd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where username = #{username} and password = #{password}
+  </select>
+
+  <select id="selectByUserAndRole" resultType="java.util.HashMap">
+    select u.id,u.username,u.mobile,u.state,u.email,u.creatTime,r.roleName
+    from
+    t_user u left join t_role r
+    on u.rid = r.id
+    <where>
+      <if test="query != null">
+        u.username like "%"#{query}"%"
+      </if>
+    </where>
+    limit #{pagenum},#{pagesize}
+
+  </select>
+
+  <select id="selectCount" resultType="java.lang.Integer">
+    select count(id) from t_user
+    <where>
+      <if test="query != null">
+        username like "%"#{query}"%"
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.zxy.model.User">
+    insert into t_user (id, password, rid, 
+      username, mobile, email, 
+      creatTime, type)
+    values (#{id,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{rid,jdbcType=INTEGER}, 
+      #{username,jdbcType=VARCHAR}, #{mobile,jdbcType=CHAR}, #{email,jdbcType=VARCHAR}, 
+      #{creattime,jdbcType=CHAR}, #{type,jdbcType=CHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zxy.model.User">
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="rid != null">
+        rid,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="creatTime != null">
+        creatTime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="state != null">
+        token,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null">
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        #{creatTime,jdbcType=CHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="state != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.zxy.model.User">
+    update t_user
+    <set>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="rid != null">
+        rid = #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=CHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="creatTime != null">
+        creatTime = #{creatTime,jdbcType=CHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.zxy.model.User">
+    update t_user
+    set password = #{password,jdbcType=VARCHAR},
+      rid = #{rid,jdbcType=INTEGER},
+      username = #{username,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=CHAR},
+      email = #{email,jdbcType=VARCHAR},
+      creatTime = #{creatTime,jdbcType=CHAR},
+        state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>
