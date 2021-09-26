@@ -1,0 +1,28 @@
+{
+    "data": [
+      {
+        "uid": "1",
+        "name": "王小虎",
+        "mail": "123456789@qq.com",
+        "telephone": "15634522132",
+        "role": "超级管理员",
+        "val": true
+      },
+      {
+        "uid": "2",
+        "name": "王小虎1",
+        "mail": "123456789@qq.com",
+        "telephone": "15634522132",
+        "role": "普通用户",
+        "val": true
+      },  
+      {
+        "uid": "3",
+        "name": "王小虎2",
+        "mail": "123456789@qq.com",
+        "telephone": "15634522132",
+        "role": "普通用户",
+        "val": true
+      }    
+    ]
+}
